@@ -19,7 +19,7 @@ function listenToNFT(processEvents) {
       JSON.stringify({
         secret: "ohyeahnftsss",
         filter: nftFilter,
-        fetch_past_events: 10,
+        fetch_past_events: 20,
       })
     );
   };
