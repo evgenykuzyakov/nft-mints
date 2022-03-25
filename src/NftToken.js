@@ -18,6 +18,7 @@ async function fetchNftData(near, nft) {
       })
     );
 
+
     let tokenMetadata = nftToken?.metadata;
     let tokenMedia = tokenMetadata?.media || "";
 
