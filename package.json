@@ -10,14 +10,14 @@
     "near-api-js": "^0.44.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-scripts": "5.0.0",
+    "react-scripts": "^4.0.0",
     "react-singleton-hook": "^3.2.3",
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -39,8 +39,6 @@
     ]
   },
   "devDependencies": {
-    "buffer": "^6.0.3",
-    "prettier": "^2.2.1",
-    "react-app-rewired": "^2.2.1"
+    "prettier": "^2.2.1"
   }
 }

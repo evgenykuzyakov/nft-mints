@@ -18,29 +18,52 @@ async function fetchNftData(near, nft) {
       })
     );
 
-
     let tokenMetadata = nftToken?.metadata;
     let tokenMedia = tokenMetadata?.media || "";
 
-    const imageUrl =
+
+    let imageUrl =
       tokenMedia.startsWith("https://") ||
       tokenMedia.startsWith("http://") ||
       tokenMedia.startsWith("data:image")
         ? tokenMedia
         : nftMetadata.baseUri
-        ? `${nftMetadata.baseUri}/${tokenMedia}`
-        : tokenMedia.startsWith("Qm")
-        ? `https://cloudflare-ipfs.com/ipfs/${tokenMedia}`
-        : tokenMedia;
+          ? `${nftMetadata.baseUri}/${tokenMedia}`
+          : tokenMedia.startsWith("Qm")
+            ? `https://cloudflare-ipfs.com/ipfs/${tokenMedia}`
+            : tokenMedia;
 
-    const mjolnearUrl = `https://mjolnear.com/#/nfts/${nft.contractId}/${nft.tokenId}`;
-    const parasUrl = `https://paras.id/token/${nft.contractId}/${nft.tokenId}`;
-    const parasOwnerUrl = `https://paras.id/${nft.ownerId}/collectibles`;
-    const parasCollectionUrl = `https://paras.id/collection/${nft.contractId}`;
+    let mjolnearUrl = `https://mjolnear.com/#/nfts/${nft.contractId}/${nft.tokenId}`;
+    let parasUrl = `https://paras.id/token/${nft.contractId}/${nft.tokenId}`;
+    let mintbaseUrl = null;
+    let parasOwnerUrl = `https://paras.id/${nft.ownerId}/collectibles`;
+    let parasCollectionUrl = `https://paras.id/collection/${nft.contractId}`;
+
+    let ownerUrl = parasOwnerUrl;
+    let storeUrl = parasCollectionUrl;
+    let tokenUrl = parasUrl;
+
+    let title = tokenMetadata?.title;
+    let description = tokenMetadata.description || nftMetadata.name;
+
+    if (!tokenMedia && tokenMetadata.reference && nftMetadata.baseUri === "https://arweave.net") {
+      const res = await fetch(`${nftMetadata.baseUri}/${tokenMetadata.reference}`);
+      const reference = keysToCamel(await (res.json()));
+      if (reference) {
+        imageUrl = reference.media;
+        title = reference.title;
+        description = reference.description;
+        tokenUrl = reference.externalUrl;
+        ownerUrl = reference.externalUrl;
+        storeUrl = reference.externalUrl;
+        mintbaseUrl = `https://mintbase.io/store/${nft.contractId}`;
+      }
+    }
+
 
     return {
-      title: tokenMetadata?.title,
-      description: tokenMetadata.description || nftMetadata.name,
+      title,
+      description,
       ownerId: nft.ownerId,
       contractId: nft.contractId,
       parasOwnerUrl,
@@ -48,6 +71,10 @@ async function fetchNftData(near, nft) {
       imageUrl,
       mjolnearUrl,
       parasUrl,
+      mintbaseUrl,
+      tokenUrl,
+      ownerUrl,
+      storeUrl,
       nft,
       nftToken,
       nftMetadata,
@@ -80,7 +107,7 @@ export default function NftToken(props) {
       </div>
 
       <div className="card__body">
-        <a target="_blank" rel="noreferrer" href={nftData.parasUrl}>
+        <a target="_blank" rel="noreferrer" href={nftData.tokenUrl}>
           <h3 className="card__title">{nftData.title}</h3>
         </a>
 
@@ -88,7 +115,7 @@ export default function NftToken(props) {
 
         <div className="wrapper">
           <div className="card__owner">
-            <a target="_blank" rel="noreferrer" href={nftData.parasOwnerUrl}>
+            <a target="_blank" rel="noreferrer" href={nftData.ownerUrl}>
               {nftData.ownerId}
             </a>
           </div>
@@ -97,7 +124,7 @@ export default function NftToken(props) {
             <a
               target="_blank"
               rel="noreferrer"
-              href={nftData.parasCollectionUrl}
+              href={nftData.storeUrl}
             >
               {nftData.contractId}
             </a>
@@ -105,12 +132,16 @@ export default function NftToken(props) {
         </div>
       </div>
       <div className="card__footer">
-        <a target="_blank" rel="noreferrer" href={nftData.mjolnearUrl}>
-          MjolNear
-        </a>
         <a target="_blank" rel="noreferrer" href={nftData.parasUrl}>
           Paras
         </a>
+        <a target="_blank" rel="noreferrer" href={nftData.mjolnearUrl}>
+          MjolNear
+        </a>
+        {nftData.mintbaseUrl && (
+        <a target="_blank" rel="noreferrer" href={nftData.mintbaseUrl}>
+          Mintbase
+        </a>)}
       </div>
     </div>
   ) : (
