@@ -1,38 +1,137 @@
-.App {
+:root {
+  --oxford-blue:       hsl(217, 54%, 11%);
+  --light-oxford-blue: hsl(216, 50%, 16%);
+  --indigo-dye:        hsl(215, 32%, 27%);
+  --blue-yonder:       hsl(216, 30%, 55%);
+  --aqua:              hsl(178, 100%, 50%);
+  --white:             hsl(0, 0%, 100%);
+}
+
+h1 {
   text-align: center;
+  color: var(--white);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  margin:  0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+html { font-family: "Outfit", sans-serif; }
 
-.App-header {
-  background-color: #282c34;
+a { text-decoration: none; }
+
+body {
+  background: var(--oxford-blue);
   min-height: 100vh;
+  padding: 25px;
+}
+
+.card-wrapper {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.card {
+  background: var(--light-oxford-blue);
+  max-width: 350px;
+  padding: 24px;
+  border-radius: 15px;
+  box-shadow: 0 20px 25px 15px rgba(0, 0, 0, 0.05),
+  0 40px 30px 15px rgba(0, 0, 0, 0.1);
+  margin: 10px;
+  transition: .5s;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.card__product-img {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
 }
+
+.card__product-img::after {
+  --aqua: hsla(178, 100%, 50%, 0.5);
+  position: absolute;
+  inset: 0;
+  display:         flex;
+  justify-content: center;
+  align-items:     center;
+  opacity: 0;
+  transition: all 0.25s ease;
+}
+
+.card__product-img:hover::after { opacity: 1; }
+
+.card__product-img img {
+  width: 100%;
+  display: block;
+  min-width: 100px;
+  min-height: 100px;
+}
+
+
+.card__body {
+  padding: 23px 0;
+}
+
+.card__title {
+  color: var(--white);
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+
+.card__title:hover { color: var(--aqua); }
+
+.card__text {
+  color: var(--blue-yonder);
+  font-size: 18px;
+  line-height: 1.5;
+  margin-bottom: 23px;
+  border-bottom: 1px solid var(--indigo-dye);
+  padding-bottom: 5px;
+}
+
+.card__body .wrapper {
+  display:         flex;
+  justify-content: space-between;
+  align-items:     center;
+  flex-wrap: wrap;
+}
+
+.card__owner,
+.card__contract {
+  display:     flex;
+  align-items: center;
+  font-weight: 500;
+}
+
+.card__owner a { color: var(--aqua); }
+.card__owner a:hover { color: var(--white); }
+
+.card__contract a { color: var(--blue-yonder); }
+.card__contract a:hover { color: var(--white); }
+
+
+.card__author-name a {
+  color: var(--white);
+  font-weight: 400;
+}
+
+.card__author-name a:hover { color: var(--aqua); }
+
+.card__footer {
+  display:         flex;
+  justify-content: space-around;
+  align-items:     center;
+  flex-wrap: wrap;
+}
+
+.card__footer a {
+    color: var(--blue-yonder);
+    font-weight: 400;
+  }
+.card__footer a:hover { color: var(--white); }
