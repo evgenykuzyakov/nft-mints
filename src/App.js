@@ -2,13 +2,21 @@ import "./App.css";
 import { useEffect, useState } from "react";
 import NftToken from "./NftToken";
 
-const nftFilter = {
+let globalIndex = 0;
+
+const nftFilter = [{
   status: "SUCCESS",
   event: {
     standard: "nep171",
     event: "nft_mint",
   },
-};
+}, {
+  status: "SUCCESS",
+  event: {
+    standard: "nep171",
+    event: "nft_transfer",
+  },
+}];
 
 function listenToNFT(processEvents) {
   const ws = new WebSocket("wss://events.near.stream/ws");
@@ -56,6 +64,8 @@ function processEvent(event) {
     contractId: event.account_id,
     ownerId: event.event.data[0].owner_id,
     tokenId,
+    isTransfer: event.event.event === "nft_transfer",
+    index: globalIndex++,
   }));
 }
 
@@ -80,11 +90,11 @@ function App() {
 
   return (
     <div>
-      <h1>NFT mints in realtime</h1>
+      <h1>Live NFT feed</h1>
       <div className="card-wrapper">
         {nfts.map((nft) => {
           return (
-            <NftToken key={`${nft.contractId}:${nft.tokenId}`} nft={nft} />
+            <NftToken key={`${nft.index}`} nft={nft} />
           );
         })}
       </div>

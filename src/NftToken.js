@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNear } from "./data/near";
-import { keysToCamel } from "./data/utils";
+import {accountTrim, isObject, keysToCamel} from "./data/utils";
 
 const metadataCache = {};
 
@@ -17,6 +17,8 @@ async function fetchNftData(near, nft) {
         token_id: nft.tokenId,
       })
     );
+
+    const ownerId = (isObject(nftToken.ownerId) && "Account" in nftToken.ownerId) ? nftToken.ownerId["Account"] : nftToken.ownerId;
 
     let tokenMetadata = nftToken?.metadata;
     let tokenMedia = tokenMetadata?.media || "";
@@ -35,7 +37,7 @@ async function fetchNftData(near, nft) {
     let mjolnearUrl = `https://mjolnear.com/#/nfts/${nft.contractId}/${nft.tokenId}`;
     let parasUrl = `https://paras.id/token/${nft.contractId}/${nft.tokenId}`;
     let mintbaseUrl = null;
-    let parasOwnerUrl = `https://paras.id/${nft.ownerId}/collectibles`;
+    let parasOwnerUrl = `https://paras.id/${ownerId}/collectibles`;
     let parasCollectionUrl = `https://paras.id/collection/${nft.contractId}`;
 
     let ownerUrl = parasOwnerUrl;
@@ -63,7 +65,7 @@ async function fetchNftData(near, nft) {
     return {
       title,
       description,
-      ownerId: nft.ownerId,
+      ownerId,
       contractId: nft.contractId,
       parasOwnerUrl,
       parasCollectionUrl,
@@ -86,6 +88,7 @@ async function fetchNftData(near, nft) {
 
 export default function NftToken(props) {
   const [nftData, setNftData] = useState(null);
+  const [imgLoaded, setImgLoaded] = useState(false);
   const near = useNear();
   const nft = props.nft;
 
@@ -96,11 +99,11 @@ export default function NftToken(props) {
   }, [near, nft]);
 
   return nftData ? (
-    <div className="card">
+    <div className={`card ${nftData.nft.isTransfer ? "transfer" : "mint"}`}>
       <div className="card__head">
         <a target="_blank" rel="noreferrer" href={nftData.imageUrl}>
-          <div className="card__product-img">
-            <img src={nftData.imageUrl} alt={nftData.title} />
+          <div className={`card__product-img${!imgLoaded ? " loading" : ""}`}>
+            <img src={nftData.imageUrl} alt={nftData.title} onLoad={() => imgLoaded || setImgLoaded(true)}/>
           </div>
         </a>
       </div>
@@ -115,7 +118,7 @@ export default function NftToken(props) {
         <div className="wrapper">
           <div className="card__owner">
             <a target="_blank" rel="noreferrer" href={nftData.ownerUrl}>
-              {nftData.ownerId}
+              {accountTrim(nftData.ownerId)}
             </a>
           </div>
 
@@ -125,7 +128,7 @@ export default function NftToken(props) {
               rel="noreferrer"
               href={nftData.storeUrl}
             >
-              {nftData.contractId}
+              {accountTrim(nftData.contractId)}
             </a>
           </div>
         </div>

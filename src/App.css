@@ -1,10 +1,13 @@
 :root {
-  --oxford-blue:       hsl(217, 54%, 11%);
-  --light-oxford-blue: hsl(216, 50%, 16%);
-  --indigo-dye:        hsl(215, 32%, 27%);
-  --blue-yonder:       hsl(216, 30%, 55%);
-  --aqua:              hsl(178, 100%, 50%);
-  --white:             hsl(0, 0%, 100%);
+  --oxford-blue:        hsl(217, 54%, 11%);
+  --light-oxford-blue:  hsl(216, 50%, 16%);
+  --lighter-oxford-blue:hsl(216, 50%, 25%);
+  --indigo-dye:         hsl(215, 32%, 27%);
+  --blue-yonder:        hsl(216, 30%, 55%);
+  --aqua:               hsl(178, 100%, 50%);
+  --white:              hsl(0, 0%, 100%);
+  --light-gray:         hsl(0, 0%, 90%);
+  --dark-gray:          hsl(0, 0%, 50%);
 }
 
 h1 {
@@ -43,6 +46,35 @@ body {
   0 40px 30px 15px rgba(0, 0, 0, 0.1);
   margin: 10px;
   transition: .5s;
+  position: relative;
+}
+
+.card.mint {
+  background: var(--lighter-oxford-blue);
+}
+
+.card.mint::before {
+  content: "NEW MINT";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  text-align: center;
+  color: var(--light-gray);
+  display: block;
+  font-weight: 800;
+  width: 100%;
+}
+
+.card.transfer::before {
+  content: "TRANSFER";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  text-align: center;
+  color: var(--dark-gray);
+  display: block;
+  font-weight: 800;
+  width: 100%;
 }
 
 .card__product-img {
@@ -65,8 +97,29 @@ body {
 
 .card__product-img:hover::after { opacity: 1; }
 
+.card__product-img {
+  display: block;
+}
+
+.card__product-img.loading {
+  min-width: 302px;
+  background: var(--light-oxford-blue);
+  background: linear-gradient(110deg, var(--oxford-blue) 8%, var(--light-oxford-blue) 18%, var(--oxford-blue) 33%);
+  border-radius: 5px;
+  background-size: 200% 100%;
+  animation: 1.5s shine linear infinite;
+  min-height: 302px;
+}
+
+@keyframes shine {
+  to {
+    background-position-x: -200%;
+  }
+}
+
 .card__product-img img {
   width: 100%;
+  color: var(--blue-yonder);
   display: block;
   min-width: 100px;
   min-height: 100px;

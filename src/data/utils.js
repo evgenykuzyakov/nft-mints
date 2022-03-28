@@ -36,7 +36,7 @@ const isArray = function (a) {
   return Array.isArray(a);
 };
 
-const isObject = function (o) {
+export const isObject = function (o) {
   return o === Object(o) && !isArray(o) && typeof o !== "function";
 };
 
@@ -131,3 +131,9 @@ export const availableNearBalance = (account) => {
 
 export const isoDate = (d) =>
   d ? new Date(d).toISOString().substring(0, 10) : "";
+
+export function accountTrim(accountId) {
+  return (accountId && accountId.length > 14 + 14 + 1) ?
+    accountId.slice(0, 14) + '…' + accountId.slice(-14) :
+    accountId;
+}
