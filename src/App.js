@@ -101,7 +101,14 @@ function App() {
       events = events.flatMap(processEvent);
       events.reverse();
       setNfts((prevState) => {
-        const newNfts = [...events, ...prevState];
+        const newNfts = [
+          ...events.filter(
+            (event) =>
+              prevState.length === 0 ||
+              event.time.getTime() > prevState[0].time.getTime()
+          ),
+          ...prevState,
+        ];
         return newNfts.slice(0, 100);
       });
     };
