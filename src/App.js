@@ -18,7 +18,25 @@ const nftFilter = [{
   },
 }];
 
+
+let reconnectTimeout = null;
+
 function listenToNFT(processEvents) {
+  const scheduleReconnect = (timeOut) => {
+    if (reconnectTimeout) {
+      clearTimeout(reconnectTimeout);
+      reconnectTimeout = null;
+    }
+    reconnectTimeout = setTimeout(() => {
+      listenToNFT(processEvents);
+    }, timeOut);
+  };
+
+  if (document.hidden) {
+    scheduleReconnect(1000);
+    return;
+  }
+
   const ws = new WebSocket("wss://events.near.stream/ws");
 
   ws.onopen = () => {
@@ -30,6 +48,10 @@ function listenToNFT(processEvents) {
         fetch_past_events: 20,
       })
     );
+  };
+  ws.onclose = () => {
+    console.log(`WS Connection has been closed`);
+    scheduleReconnect(1);
   };
   ws.onmessage = (e) => {
     const data = JSON.parse(e.data);
