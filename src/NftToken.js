@@ -54,10 +54,10 @@ async function fetchNftData(near, nft) {
         imageUrl = reference.media;
         title = reference.title;
         description = reference.description;
-        tokenUrl = reference.externalUrl;
-        ownerUrl = reference.externalUrl;
-        storeUrl = reference.externalUrl;
-        mintbaseUrl = `https://mintbase.io/store/${nft.contractId}`;
+        tokenUrl = `https://mintbase.io/thing/${tokenMetadata.reference}:${nft.contractId}`;
+        ownerUrl = `https://mintbase.io/human/${ownerId}`;
+        storeUrl = `https://mintbase.io/store/${nft.contractId}`;
+        mintbaseUrl = tokenUrl;
       }
     }
 
