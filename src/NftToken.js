@@ -34,7 +34,7 @@ async function fetchNftData(near, nft) {
             ? `https://cloudflare-ipfs.com/ipfs/${tokenMedia}`
             : tokenMedia;
 
-    let mjolnearUrl = `https://mjolnear.com/#/nfts/${nft.contractId}/${nft.tokenId}`;
+    let mjolnearUrl = `https://mjolnear.com/nfts/${nft.contractId}/${nft.tokenId}`;
     let parasUrl = `https://paras.id/token/${nft.contractId}/${nft.tokenId}`;
     let mintbaseUrl = null;
     let parasOwnerUrl = `https://paras.id/${ownerId}/collectibles`;
