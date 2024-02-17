@@ -78,7 +78,7 @@ function listenToNFT(processEvents) {
 
 function processEvent(event) {
   return (event?.data_token_ids || []).map((tokenId) => ({
-    time: new Date(event.block_timestamp),
+    time: new Date(event.block_timestamp * 1000),
     contractId: event.account_id,
     ownerId: event.data_owner_id,
     tokenId,
