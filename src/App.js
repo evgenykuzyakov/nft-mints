@@ -6,16 +6,12 @@ let globalIndex = 0;
 
 const nftFilter = [{
   status: "SUCCESS",
-  event: {
-    standard: "nep171",
-    event: "nft_mint",
-  },
+  standard: "nep171",
+  event: "nft_mint",
 }, {
   status: "SUCCESS",
-  event: {
-    standard: "nep171",
-    event: "nft_transfer",
-  },
+  standard: "nep171",
+  event: "nft_transfer",
 }];
 
 
@@ -81,12 +77,12 @@ function listenToNFT(processEvents) {
 // }
 
 function processEvent(event) {
-  return (event?.event?.data[0]?.token_ids || []).map((tokenId) => ({
+  return (event?.data_token_ids || []).map((tokenId) => ({
     time: new Date(parseFloat(event.block_timestamp) / 1e6),
     contractId: event.account_id,
-    ownerId: event.event.data[0].owner_id,
+    ownerId: event.data_owner_id,
     tokenId,
-    isTransfer: event.event.event === "nft_transfer",
+    isTransfer: event.event === "nft_transfer",
     index: globalIndex++,
   }));
 }

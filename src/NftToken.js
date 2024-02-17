@@ -137,9 +137,9 @@ export default function NftToken(props) {
         <a target="_blank" rel="noreferrer" href={nftData.parasUrl}>
           Paras
         </a>
-        <a target="_blank" rel="noreferrer" href={nftData.mjolnearUrl}>
-          MjolNear
-        </a>
+        {/*<a target="_blank" rel="noreferrer" href={nftData.mjolnearUrl}>*/}
+        {/*  MjolNear*/}
+        {/*</a>*/}
         {nftData.mintbaseUrl && (
         <a target="_blank" rel="noreferrer" href={nftData.mintbaseUrl}>
           Mintbase
