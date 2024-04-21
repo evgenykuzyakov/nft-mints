@@ -6,12 +6,16 @@ let globalIndex = 0;
 
 const nftFilter = [{
   status: "SUCCESS",
-  standard: "nep171",
-  event: "nft_mint",
+  event: {
+    standard: "nep171",
+    event: "nft_mint",
+  }
 }, {
   status: "SUCCESS",
-  standard: "nep171",
-  event: "nft_transfer",
+  event: {
+    standard: "nep171",
+    event: "nft_transfer",
+  }
 }];
 
 
@@ -34,6 +38,7 @@ function listenToNFT(processEvents) {
   }
 
   const ws = new WebSocket("wss://events.near.stream/ws");
+  // const ws = new WebSocket("ws://localhost:3006/ws");
 
   ws.onopen = () => {
     console.log(`Connection to WS has been established`);
@@ -77,12 +82,13 @@ function listenToNFT(processEvents) {
 // }
 
 function processEvent(event) {
-  return (event?.data_token_ids || []).map((tokenId) => ({
-    time: new Date(event.block_timestamp * 1000),
-    contractId: event.account_id,
-    ownerId: event.data_owner_id,
+  const data = event?.event?.data?.[0];
+  return (data?.token_ids || []).map((tokenId) => ({
+    time: new Date(event?.blockTimestampMs),
+    contractId: event?.accountId,
+    ownerId: data?.owner_id,
     tokenId,
-    isTransfer: event.event === "nft_transfer",
+    isTransfer: event?.event?.event === "nft_transfer",
     index: globalIndex++,
   }));
 }
