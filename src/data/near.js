@@ -10,16 +10,16 @@ export const StorageCostPerByte = Big(10).pow(19);
 export const IsMainnet = true;
 const TestNearConfig = {
   networkId: "testnet",
-  nodeUrl: "https://rpc.testnet.near.org",
-  archivalNodeUrl: "https://rpc.testnet.internal.near.org",
+  nodeUrl: "https://rpc.testnet.fastnear.com",
+  archivalNodeUrl: "https://archival-rpc.testnet.fastnear.com",
   walletUrl: "https://wallet.testnet.near.org",
   storageCostPerByte: StorageCostPerByte,
   wrapNearAccountId: "wrap.testnet",
 };
 export const MainNearConfig = {
   networkId: "mainnet",
-  nodeUrl: "https://rpc.mainnet.near.org",
-  archivalNodeUrl: "https://rpc.mainnet.internal.near.org",
+  nodeUrl: "https://archival-rpc.mainnet.fastnear.com",
+  archivalNodeUrl: "https://archival-rpc.mainnet.fastnear.com",
   walletUrl: "https://wallet.near.org",
   storageCostPerByte: StorageCostPerByte,
   wrapNearAccountId: "wrap.near",
